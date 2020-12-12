@@ -1,0 +1,147 @@
+html, body {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+  }
+  .container{
+    width: 100%;
+  }
+  .component_content{
+    width: 30%;
+    float: left;
+    height: 100%;
+    display: block;
+  }
+  .componentMap{
+    width: 70%;
+    float: left;
+    height: 100%;
+  }
+
+  .componentSearch{
+      display:  flex;
+      flex-direction: row;
+      padding: 50px 30px 30px 30px;
+      background-color: #1A73E8;
+  }
+
+  .icon{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-grow: 1;
+  }
+  .icon i{
+      padding-bottom: 10px;
+      color: white;
+  }
+
+  .fa-dot-circle, .fa-map-marker-alt{
+    font-size: 30px;
+  }
+
+  .fa-circle{
+      font-size: 14px;
+      opacity: 0.7;
+  }
+
+  .changeInput{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      flex-grow: 1;
+      color: white;
+  }
+
+  .buttonChange{
+    cursor: pointer;
+  }
+
+  .componentInput{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 3;
+  }
+
+  .txtInput{
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-bottom: 1px solid white;
+    background-color: #1A73E8;
+    color: white;
+  }
+
+  ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: white;
+    opacity: 0.7; 
+  }
+
+  .component-color{
+      width: 100%;
+      height: 50px;
+      background-color: #1127F0;
+  }
+
+  .btnopenclose{
+    padding: 20px 10px;
+    position: absolute;
+    background-color: white;
+    top: 100px;
+    left: 30%;
+    cursor: pointer;
+  }
+  input:focus{
+      outline: none;
+  }
+  .logo{
+    position: absolute;
+    left: 34%;
+    width: 100px;
+  }
+
+  .traffic{
+    background-color: red;
+    padding: 10px;
+    margin-left: 5px;
+    width:50px;
+  }
+
+  .divDescription{
+    display:flex;
+    margin-bottom: 5px;
+  }
+
+  .locationFrom{
+    background-color: rgb(0,255, 0);
+    padding: 10px;
+    border-radius: 50%;
+    border: none;
+    margin-left: 5px;
+  }
+
+  .locationTo{
+    background-color: rgb(255,200, 0);;
+    padding: 10px;
+    border-radius: 50%;
+    border: none;
+    margin-left: 5px;
+  }
+
+  .route{
+    background-color:rgb(0,0,255);
+    padding: 10px;
+    margin-left: 5px;
+    width: 50px;
+  }
+
+  .descriptionMap{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    bottom: 0px;
+    left: 80%;
+    margin-bottom: 10px;
+  }

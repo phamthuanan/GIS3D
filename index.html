@@ -1,0 +1,115 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel=icon href="./favicon.png" sizes="20x20" type="image/png">
+  <title>Hospital Map</title>
+  <link rel="stylesheet" href="./style.css"> 
+  <script src="https://kit.fontawesome.com/6ea5e95864.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.15/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.15/"></script>
+  
+  <script>
+    var hospital ='', house = '';
+    function getDataFromForm(event){
+      if(event.keyCode == 13){
+        hospital = document.getElementsByName('hospital')[0].value;
+        house = document.getElementsByName('home')[0].value;
+        console.log(hospital + house);
+        require([
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/Graphic",
+      "esri/layers/GraphicsLayer",
+      "esri/request"
+    ], function(Map, MapView, Graphic, GraphicsLayer, esriRequest) {
+
+		var map = new Map({
+		basemap: "topo-vector"
+		});
+		 map.on("load", function(){
+          map.graphics.enableMouseEvents();
+        });
+
+		var view = new MapView({
+		container: "viewDiv",
+		map: map,
+		center: [106.77983424640927, 10.861652169626261],
+		zoom: 16,
+          highlightOptions: {
+            color: "blue"
+          }
+		});
+		var options = {
+          query: {
+            f: "json"
+          },
+          responseType: "json"
+        };
+    esriRequest('api.php?name=network_json&&hospital='+hospital + '&&house='+house, options).then(function (response) {
+			var graphicsLayer = new GraphicsLayer();
+            console.log("response", response);
+            response.data.forEach(function(graphicJson){
+	            var gp = new Graphic(graphicJson);
+				graphicsLayer.add(gp);
+            });
+			map.add(graphicsLayer);
+		});      
+        view.popup.defaultPopupTemplateEnabled = true;
+    });
+      }
+    }
+    
+  </script>
+</head>
+<body>
+  <div class="container">
+      <div class="component_content" id="component_content">
+        <div class="componentSearch">
+          <div class="icon">
+            <i class="far fa-dot-circle"></i>
+            <i class="fas fa-circle"></i>
+            <i class="fas fa-circle"></i>
+            <i class="fas fa-circle"></i>
+            <i class="fas fa-map-marker-alt"></i>
+          </div>
+          <form method="post" class="componentInput" id= 'formSearch'>
+            <input type="text" name="hospital" class="txtInput" id="hospital" placeholder="Nhập tên bệnh viện">
+            <input type="text" name="home" class="txtInput" id="home" placeholder="Nhập địa chỉ đến" onkeydown="getDataFromForm(event)">
+          </form>
+          <div class="changeInput">
+            <div class="buttonChange" id="buttonChange">
+              <i class="fas fa-long-arrow-alt-up"></i>
+              <i class="fas fa-long-arrow-alt-down"></i>
+            </div>
+          </div>
+        </div>
+        <div class="component-color"></div>
+        
+      </div>
+      <div id="viewDiv" class="componentMap"></div>
+      <div class="btnopenclose" id="btnopenclose">
+          <i class="fas fa-caret-left" id="icon-btn-change"></i>
+      </div>
+      <div >
+        <img src="./logo.png" alt="logo" class="logo">
+      </div>
+      <div class="descriptionMap">
+        <div class="divDescription" > Điểm đi <div class="locationFrom"></div></div>
+        <div class="divDescription" >Điểm đến
+          <div class="locationTo"></div>
+        </div>
+        <div class="divDescription"  >Lộ trình
+          <div class="route"></div>
+         </div>
+        <div class="divDescription">Sự kiện giao thông
+          <div class="traffic">
+          </div>
+        </div>
+      </div>
+      
+  </div>
+  
+  <script src="./action.js" type="text/javascript"></script>
+</body>
+</html>
