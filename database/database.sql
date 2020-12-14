@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 12, 2020 at 11:03 AM
+-- Generation Time: Dec 14, 2020 at 10:21 AM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 5.6.36
 
@@ -32,7 +32,6 @@ USE `route`;
 
 CREATE TABLE `ambulance` (
   `idn` int(11) NOT NULL,
-  `idp` int(11) NOT NULL,
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `license_plate` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   `description` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL
@@ -2324,13 +2323,16 @@ ALTER TABLE `ambulance`
 -- Indexes for table `arc`
 --
 ALTER TABLE `arc`
-  ADD PRIMARY KEY (`ida`);
+  ADD PRIMARY KEY (`ida`),
+  ADD KEY `fk_arc_node_begin` (`inb`),
+  ADD KEY `fk_arc_node_end` (`ine`);
 
 --
 -- Indexes for table `arc_point`
 --
 ALTER TABLE `arc_point`
-  ADD PRIMARY KEY (`ida`,`idp`);
+  ADD PRIMARY KEY (`ida`,`idp`),
+  ADD KEY `fk_arc_point_point` (`idp`);
 
 --
 -- Indexes for table `event`
@@ -2342,13 +2344,15 @@ ALTER TABLE `event`
 -- Indexes for table `event_arc`
 --
 ALTER TABLE `event_arc`
-  ADD PRIMARY KEY (`ida`,`ide`);
+  ADD PRIMARY KEY (`ida`,`ide`),
+  ADD KEY `fk_event_arc_event` (`ide`);
 
 --
 -- Indexes for table `event_point`
 --
 ALTER TABLE `event_point`
-  ADD PRIMARY KEY (`ide`,`idp`);
+  ADD PRIMARY KEY (`ide`,`idp`),
+  ADD KEY `fk_arc_envent_point_point` (`idp`);
 
 --
 -- Indexes for table `hospital`
@@ -2366,7 +2370,8 @@ ALTER TABLE `house`
 -- Indexes for table `node`
 --
 ALTER TABLE `node`
-  ADD PRIMARY KEY (`idn`);
+  ADD PRIMARY KEY (`idn`),
+  ADD KEY `fk_node_point` (`idp`);
 
 --
 -- Indexes for table `point`
@@ -2412,13 +2417,69 @@ ALTER TABLE `house`
 -- AUTO_INCREMENT for table `node`
 --
 ALTER TABLE `node`
-  MODIFY `idn` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idn` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `point`
 --
 ALTER TABLE `point`
   MODIFY `idp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=891;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `ambulance`
+--
+ALTER TABLE `ambulance`
+  ADD CONSTRAINT `fk_ambulance` FOREIGN KEY (`idn`) REFERENCES `node` (`idn`);
+
+--
+-- Constraints for table `arc`
+--
+ALTER TABLE `arc`
+  ADD CONSTRAINT `fk_arc_node_begin` FOREIGN KEY (`inb`) REFERENCES `node` (`idn`),
+  ADD CONSTRAINT `fk_arc_node_end` FOREIGN KEY (`ine`) REFERENCES `node` (`idn`);
+
+--
+-- Constraints for table `arc_point`
+--
+ALTER TABLE `arc_point`
+  ADD CONSTRAINT `fk_arc_point_arc` FOREIGN KEY (`ida`) REFERENCES `arc` (`ida`),
+  ADD CONSTRAINT `fk_arc_point_point` FOREIGN KEY (`idp`) REFERENCES `point` (`idp`);
+
+--
+-- Constraints for table `event_arc`
+--
+ALTER TABLE `event_arc`
+  ADD CONSTRAINT `fk_event_arc_arc` FOREIGN KEY (`ida`) REFERENCES `arc` (`ida`),
+  ADD CONSTRAINT `fk_event_arc_event` FOREIGN KEY (`ide`) REFERENCES `event` (`ide`);
+
+--
+-- Constraints for table `event_point`
+--
+ALTER TABLE `event_point`
+  ADD CONSTRAINT `fk_arc_envent_point_event` FOREIGN KEY (`ide`) REFERENCES `event` (`ide`),
+  ADD CONSTRAINT `fk_arc_envent_point_point` FOREIGN KEY (`idp`) REFERENCES `point` (`idp`);
+
+--
+-- Constraints for table `hospital`
+--
+ALTER TABLE `hospital`
+  ADD CONSTRAINT `fk_hospital_node` FOREIGN KEY (`idn`) REFERENCES `node` (`idn`);
+
+--
+-- Constraints for table `house`
+--
+ALTER TABLE `house`
+  ADD CONSTRAINT `fk_house_node` FOREIGN KEY (`idn`) REFERENCES `node` (`idn`);
+
+--
+-- Constraints for table `node`
+--
+ALTER TABLE `node`
+  ADD CONSTRAINT `fk_node_point` FOREIGN KEY (`idp`) REFERENCES `point` (`idp`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

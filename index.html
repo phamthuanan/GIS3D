@@ -59,6 +59,31 @@
     });
       }
     }
+    require([
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/Graphic",
+      "esri/layers/GraphicsLayer",
+      "esri/request"
+    ], function(Map, MapView, Graphic, GraphicsLayer, esriRequest) {
+
+		var map = new Map({
+		basemap: "topo-vector"
+		});
+		 map.on("load", function(){
+          map.graphics.enableMouseEvents();
+        });
+
+		var view = new MapView({
+		container: "viewDiv",
+		map: map,
+		center: [106.77983424640927, 10.861652169626261],
+		zoom: 16,
+          highlightOptions: {
+            color: "blue"
+          }
+		});
+    });
     
   </script>
 </head>
