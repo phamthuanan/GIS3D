@@ -11,12 +11,10 @@ class GraphicUtil
                 "latitude" => $attribute['y']
             ),
             "symbol" => array(
-                "type" => "simple-marker",
-                "color" => [0, 255, 0],
-                "outline" => array(
-                    "color" => array(255, 255, 255),
-                    "width" => 1
-                )
+                "type" => "picture-marker",  // autocasts as new PictureMarkerSymbol()
+                "url" => "http://localhost:8888/Project_GIS3D_Final/from.png",
+                "width" =>  "32px",
+                "height" => "32px"
             ),
             "attributes" => array(
                 "name" => $attribute['name'],
@@ -39,12 +37,10 @@ class GraphicUtil
                 "latitude" => $attribute['y']
             ),
             "symbol" => array(
-                "type" => "simple-marker",
-                "color" => [255, 200, 0],
-                "outline" => array(
-                    "color" => array(255, 255, 255),
-                    "width" => 1
-                )
+                "type" => "picture-marker",  // autocasts as new PictureMarkerSymbol()
+                "url" => "http://localhost:8888/Project_GIS3D_Final/to.png",
+                "width" =>  "32px",
+                "height" => "32px"
             ),
             "attributes" => array(
                 "name" => $attribute['name'],
